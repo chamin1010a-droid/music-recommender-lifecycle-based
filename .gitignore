@@ -1,0 +1,40 @@
+# 개인 데이터
+Takeout/
+takeout-*/
+유튜브 뮤직 로그들/
+*.csv
+!requirements.txt
+
+# 대용량 데이터/캐시
+data/
+lastfm_validation/data/
+lastfm_validation/results/
+*.wav
+*.webm
+*.webm.part
+*.mp3
+*.json
+!screenshots/*.png
+
+# 캐시
+__pycache__/
+*.pyc
+
+# API 키/토큰
+.env
+.cache
+
+# 시스템
+.DS_Store
+Thumbs.db
+
+# 대용량 파일
+*.zip
+*.7z
+
+# 생성된 HTML 결과물
+playlist_viewer.html
+
+# 생성된 결과물 (선택적 포함)
+# playlist_viewer.html
+# score_sampling_v3_raw.md

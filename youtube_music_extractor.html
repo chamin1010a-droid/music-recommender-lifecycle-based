@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안전한 YouTube Music 추출기</title>
+    <style>
+        body { font-family: 'Malgun Gothic', sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; line-height: 1.6; background-color: #f9f9f9; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h2 { color: #ff0000; }
+        p { color: #555; font-size: 15px; }
+        .highlight { background-color: #ffeaea; padding: 10px; border-radius: 5px; color: #d00000; font-weight: bold; font-size: 14px; }
+        input[type="file"] { display: block; margin: 20px 0; padding: 10px; border: 1px solid #ccc; width: 100%; box-sizing: border-box; }
+        button { background-color: #ff0000; color: white; border: none; padding: 12px 20px; font-size: 16px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold; }
+        button:hover { background-color: #cc0000; }
+        #status { margin-top: 20px; font-weight: bold; white-space: pre-wrap; font-size: 14px; color: #333;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎵 안전한 YouTube Music 추출기</h2>
+        <p>구글 테이크아웃에서 받은 <b>'시청 기록.html'</b> 파일에는 일반 유튜브 영상 시청 기록(프라이버시)이 섞여 있습니다.</p>
+        <p class="highlight">이 도구는 여러분의 기기 내부에서 작동하여, 서버로 어떠한 데이터도 전송하지 않습니다. 오직 'YouTube Music'에서 들은 음악 로그만 골라내어 깔끔한 엑셀(CSV) 파일로 저장해 줍니다.</p>
+        
+        <input type="file" id="fileInput" accept=".html">
+        <button onclick="process()">음악 기록만 추출하기 (안전함)</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function process() {
+            const fileInput = document.getElementById('fileInput');
+            const statusBox = document.getElementById('status');
+            
+            if (!fileInput.files.length) {
+                alert("시청 기록.html 파일을 먼저 선택해주세요!");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            statusBox.innerHTML = "파일을 읽는 중입니다... (크기에 따라 5~20초 소요될 수 있습니다)";
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                statusBox.innerHTML = "데이터를 분석하고 일반 유튜브 기록을 삭제하는 중입니다...\n";
+                
+                // 간단한 정규식 파싱 (Python 코드와 동일한 로직)
+                const chunks = content.split('class="outer-cell mdl-cell mdl-cell--12-col mdl-shadow--2dp">');
+                let csvRows = ['title,artist,time_str,app'];
+                let musicCount = 0;
+
+                for (let i = 1; i < chunks.length; i++) {
+                    const chunk = chunks[i];
+                    
+                    // YouTube Music 데이터만 허용
+                    if (!chunk.includes('YouTube Music')) continue;
+                    
+                    // 타이틀 추출
+                    let titleMatch = chunk.match(/<a[^>]*href="https:\/\/music\.youtube\.com\/watch\?v=[^>]*>([^<]+)<\/a>/);
+                    if (!titleMatch) {
+                        titleMatch = chunk.match(/<a[^>]*href="https:\/\/www\.youtube\.com\/watch\?v=[^>]*>([^<]+)<\/a>/);
+                    }
+                    const title = titleMatch ? titleMatch[1].trim().replace(/,/g, ' ') : '';
+                    
+                    // 아티스트 추출
+                    const artistMatch = chunk.match(/<a[^>]*href="https:\/\/(?:music|www)\.youtube\.com\/channel\/[^>]*>([^<]+)<\/a>/);
+                    const artist = artistMatch ? artistMatch[1].trim().replace(/,/g, ' ') : '';
+                    
+                    // 시간 추출 (<br> 뒤의 날짜 텍스트)
+                    const dateMatch = chunk.match(/<br>([^<]+(?:KST|UTC|AM|PM|오전|오후)[^<]*)\s*<\/div>/);
+                    let dateStr = '';
+                    if (dateMatch) {
+                        dateStr = dateMatch[1].trim();
+                    } else {
+                        const fallbackMatch = chunk.match(/<br>([^<]+[0-9]{2}:[0-9]{2}:[0-9]{2}[^<]*)/);
+                        if (fallbackMatch) dateStr = fallbackMatch[1].trim();
+                    }
+
+                    if (title && dateStr) {
+                        csvRows.push(`"${title.replace(/"/g, '""')}","${artist.replace(/"/g, '""')}","${dateStr}","YouTube Music"`);
+                        musicCount++;
+                    }
+                }
+
+                if (musicCount === 0) {
+                    statusBox.innerHTML += "\n❌ YouTube Music 시청 기록을 찾을 수 없습니다.";
+                    return;
+                }
+
+                statusBox.innerHTML += `\n✅ 분석 완료! 총 ${musicCount}개의 음악 청취 기록만 추출했습니다. (일반 영상은 모두 버림)\n다운로드가 시작됩니다.`;
+
+                // CSV 다운로드
+                const csvString = "\uFEFF" + csvRows.join('\n'); // Add BOM for Excel UTF-8
+                const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement("a");
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "clean_youtube_music_data.csv");
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+            
+            reader.readAsText(file, "UTF-8");
+        }
+    </script>
+</body>
+</html>

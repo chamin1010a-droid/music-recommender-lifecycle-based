@@ -1,0 +1,149 @@
+============================================================
+곡 온도 분류(Classification) 검증 리포트
+============================================================
+
+=== 🔥 Hot (Rising) (10곡) ===
+[선정 기준]
+ - 가파른 상승세를 보이며 최근 집중적으로 듣는 곡 (기울기 > 0.05)
+
+[대표 곡 Top 25 예시]
+  1. [S] JANNABI - Topic - LEGEND (전설)                    (총  39회 | 스킵 23% | 최근   9일 전)
+  2. [S] JANNABI - Topic - Summer ll (밤의 공원)              (총  36회 | 스킵 31% | 최근   0일 전)
+  3. [S] JANNABI - Topic - Sweet memories (그 밤 그 밤)       (총  10회 | 스킵 30% | 최근   0일 전)
+  4. [B] Supreme Team -  - Then Then Then (그땐 그땐 그땐)      (총  13회 | 스킵  8% | 최근   5일 전)
+  5. [B] CNBLUE - Topic  - Intuition (직감)                 (총  10회 | 스킵 30% | 최근   0일 전)
+  6. [B] LEE CHANHYUK -  - Endangered Love                (총   7회 | 스킵 14% | 최근   2일 전)
+  7. [B] CNBLUE - Topic  - I Will Forget You (그럴 겁니다... 잊 (총   6회 | 스킵  0% | 최근   0일 전)
+  8. [A] SG Wannabe - To - By My Side (사랑하자)              (총   6회 | 스킵 17% | 최근  12일 전)
+  9. [A] Oasis - Topic   - Roll with It (Live at Knebwort (총   3회 | 스킵 33% | 최근   9일 전)
+  10. [A] Oasis - Topic   - Some Might Say (Live at Knebwo (총   3회 | 스킵 33% | 최근   9일 전)
+
+
+=== 🔥 Hot (Steady) (447곡) ===
+[선정 기준]
+ - 급상승은 없으나 꾸준하게 항상 듣는 활성 곡
+
+[대표 곡 Top 25 예시]
+  1. [S] JANNABI - Topic - See Your Eyes                  (총  84회 | 스킵 11% | 최근   2일 전)
+  2. [S] JANNABI - Topic - May the TENDERNESS be with you (총  80회 | 스킵 18% | 최근   1일 전)
+  3. [S] JANNABI - Topic - Surprise!                      (총  77회 | 스킵 12% | 최근   9일 전)
+  4. [S] JANNABI - Topic - TOGETHER! (투게더!)               (총  76회 | 스킵 20% | 최근   9일 전)
+  5. [S] JANNABI - Topic - Good Luck to You (행운을 빌어요)     (총  73회 | 스킵 15% | 최근   0일 전)
+  6. [S] JANNABI - Topic - I WILL DIE FOR YOU♥x3 (아윌다이포유♥ (총  73회 | 스킵 18% | 최근   0일 전)
+  7. [S] JANNABI - Topic - All the Boys and Girls, Pt.1 : (총  69회 | 스킵 16% | 최근   3일 전)
+  8. [S] JANNABI - Topic - Tell me (꿈나라 별나라)              (총  67회 | 스킵 12% | 최근   9일 전)
+  9. [S] JANNABI - Topic - for lovers who hesitate (주저하는  (총  67회 | 스킵 39% | 최근   9일 전)
+  10. [S] The Black Skirt - 1:05                           (총  65회 | 스킵  8% | 최근   4일 전)
+  11. [S] The Black Skirt - Island (queen of diamonds)     (총  64회 | 스킵 23% | 최근   0일 전)
+  12. [S] The Black Skirt - Electra                        (총  62회 | 스킵 11% | 최근   7일 전)
+  13. [S] JANNABI - Topic - Good Boy Twist                 (총  58회 | 스킵  2% | 최근   6일 전)
+  14. [S] JANNABI - Topic - Baby I need you (사랑하긴 했었나요 스쳐가 (총  56회 | 스킵  7% | 최근   9일 전)
+  15. [S] JANNABI - Topic - Summer (뜨거운 여름밤은 가고 남은 건 볼품없지만 (총  56회 | 스킵 16% | 최근   9일 전)
+  16. [S] The Black Skirt - Antifreeze                     (총  54회 | 스킵 17% | 최근   4일 전)
+  17. [S] The Black Skirt - Powder Blue                    (총  54회 | 스킵  6% | 최근   4일 전)
+  18. [S] JANNABI - Topic - bad dreams (나쁜 꿈)              (총  54회 | 스킵 15% | 최근   6일 전)
+  19. [S] JANNABI - Topic - dreams, books, power and walls (총  51회 | 스킵 10% | 최근   9일 전)
+  20. [S] The Black Skirt - Love Is All                    (총  50회 | 스킵 16% | 최근   4일 전)
+  21. [S] The Black Skirt - EVERYTHING                     (총  49회 | 스킵 24% | 최근   0일 전)
+  22. [S] JANNABI - Topic - JUNGLE                         (총  48회 | 스킵 19% | 최근   9일 전)
+  23. [S] JANNABI - Topic - pony (pony)                    (총  48회 | 스킵 15% | 최근   6일 전)
+  24. [S] The Black Skirt - Puppy                          (총  47회 | 스킵 11% | 최근   3일 전)
+  25. [S] The Black Skirt - Big Love                       (총  46회 | 스킵 22% | 최근   2일 전)
+
+
+=== 🟡 Warm (251곡) ===
+[선정 기준]
+ - 꽤 들었던 곡이지만 최근 한동안 재생되지 않아 대기 중인 곡
+
+[대표 곡 Top 25 예시]
+  1. [S] JANNABI - Topic - ASTEARSGOBY (슬픔이여안녕)           (총  54회 | 스킵 19% | 최근  16일 전)
+  2. [S] JANNABI - Topic - All the Boys and Girls, Pt.2 : (총  50회 | 스킵 10% | 최근  16일 전)
+  3. [S] JANNABI - Topic - She (SHE (HIDDEN TRACK NO.V 1월 (총  50회 | 스킵  8% | 최근  16일 전)
+  4. [S] JANNABI - Topic - GRIPPIN’THEGREEN (초록을거머쥔우리는)   (총  49회 | 스킵 10% | 최근  16일 전)
+  5. [S] JANNABI - Topic - I watched the sunset from the  (총  47회 | 스킵 13% | 최근  16일 전)
+  6. [S] JANNABI - Topic - November Rain                  (총  47회 | 스킵 15% | 최근  16일 전)
+  7. [S] JANNABI - Topic - I Know Where The Rainbow has F (총  44회 | 스킵 23% | 최근  16일 전)
+  8. [S] JANNABI - Topic - Like when we first met         (총  31회 | 스킵 10% | 최근  16일 전)
+  9. [S] JANNABI - Topic - summerfallwinter sprinG. (여름가을 (총  30회 | 스킵 13% | 최근  15일 전)
+  10. [S] JANNABI - Topic - To the Rainbow, Juno! (Juno! 무 (총  24회 | 스킵 29% | 최근  16일 전)
+  11. [S] JANNABI - Topic - Mountain Man                   (총  23회 | 스킵 43% | 최근   1일 전)
+  12. [S] JANNABI - Topic - 나는 볼 수 없던 이야기 (나는 볼 수 없던 이야기)  (총  23회 | 스킵 13% | 최근  31일 전)
+  13. [S] JANNABI - Topic - Sweat &amp; Stardust : The Sum (총  20회 | 스킵 70% | 최근   1일 전)
+  14. [S] JANNABI - Topic - Time (누구를 위한 노래였던가)            (총  18회 | 스킵 28% | 최근  16일 전)
+  15. [S] The Black Skirt - Sang-Ah                        (총  14회 | 스킵 57% | 최근   4일 전)
+  16. [S] The Black Skirt - Parrot                         (총  12회 | 스킵 25% | 최근  35일 전)
+  17. [S] JANNABI - Topic - Clay Pigeon Boy (소년 클레이 피전)    (총  11회 | 스킵 27% | 최근  27일 전)
+  18. [S] The Black Skirt - Stand Still (&#39;07 Korean Ve (총   9회 | 스킵 78% | 최근   4일 전)
+  19. [S] The Black Skirt - Fling; Fig From France         (총   8회 | 스킵 75% | 최근   9일 전)
+  20. [S] The Black Skirt - Dientes                        (총   6회 | 스킵 67% | 최근   4일 전)
+  21. [S] The Black Skirt - I Like Watching You Go         (총   4회 | 스킵 75% | 최근   4일 전)
+  22. [S] The Black Skirt - SOMEDAY (어떤 날)                 (총   3회 | 스킵 67% | 최근   0일 전)
+  23. [B] Silica Gel - To - NO PAIN                        (총  38회 | 스킵  5% | 최근  10일 전)
+  24. [B] Nerd Connection - 29                             (총  36회 | 스킵 19% | 최근   9일 전)
+  25. [B] My Chemical Rom - Dead!                          (총  36회 | 스킵 14% | 최근  12일 전)
+
+
+=== 🧊 Cool (288곡) ===
+[선정 기준]
+ - 아티스트 내 다른 곡 대비 상대적으로 '스킵률'이 너무 높거나 하락세가 명확해 잠시 추천을 쉬는 곡
+
+[대표 곡 Top 25 예시]
+  1. [S] JANNABI - Topic - MUSIC (뮤직)                     (총  24회 | 스킵 33% | 최근  43일 전)
+  2. [S] JANNABI - Topic - Step (한걸음)                     (총  22회 | 스킵 23% | 최근  61일 전)
+  3. [S] JANNABI - Topic - Oh Brave Morning Sun (용맹한 발걸음이 (총  16회 | 스킵 44% | 최근  21일 전)
+  4. [S] JANNABI - Topic - Cuckoo                         (총  14회 | 스킵 21% | 최근  43일 전)
+  5. [S] The Black Skirt - Goodbye                        (총  14회 | 스킵 57% | 최근  20일 전)
+  6. [S] JANNABI - Topic - Made In Christmas (feat. SUHYU (총  14회 | 스킵 29% | 최근  37일 전)
+  7. [S] JANNABI - Topic - Beautiful (너 같아)               (총  11회 | 스킵 45% | 최근  31일 전)
+  8. [S] JANNABI - Topic - See Your Eyes (Acoustic Ver.)  (총  11회 | 스킵 45% | 최근  16일 전)
+  9. [S] JANNABI - Topic - Bluebird, Spread your wings! ( (총   8회 | 스킵 50% | 최근  33일 전)
+  10. [S] JANNABI - Topic - pony (sketch ver.) (pony (sket (총   8회 | 스킵 50% | 최근  57일 전)
+  11. [S] JANNABI - Topic - Baby Maybe                     (총   7회 | 스킵 43% | 최근  41일 전)
+  12. [S] JANNABI - Topic - Winter is Coming (누구나 겨울이 오면)  (총   7회 | 스킵 29% | 최근  43일 전)
+  13. [S] JANNABI - Topic - The moon (달)                   (총   4회 | 스킵  0% | 최근  57일 전)
+  14. [S] JANNABI - Topic - 미소를 띄우며 나를 보낸 그 모습처럼           (총   4회 | 스킵 25% | 최근  72일 전)
+  15. [B] Release - Topic - 항상 엔진을 켜둘께                     (총  53회 | 스킵 17% | 최근  14일 전)
+  16. [B] OneRepublic - T - Secrets                        (총  42회 | 스킵 12% | 최근  28일 전)
+  17. [B] OneRepublic - T - Sunshine                       (총  38회 | 스킵 16% | 최근  22일 전)
+  18. [B] Ed Sheeran - To - I Don&#39;t Care (Acoustic)    (총  34회 | 스킵 12% | 최근  16일 전)
+  19. [B] OneRepublic - T - I Lived                        (총  33회 | 스킵 15% | 최근  16일 전)
+  20. [B] David Guetta -  - I Don&#39;t Wanna Wait         (총  30회 | 스킵 10% | 최근  22일 전)
+  21. [B] Buzz - Topic    - 1st                            (총  28회 | 스킵 11% | 최근  21일 전)
+  22. [B] Silica Gel - To - Realize                        (총  26회 | 스킵 15% | 최근  15일 전)
+  23. [B] Justin Bieber - - Off My Face                    (총  25회 | 스킵  8% | 최근  16일 전)
+  24. [B] Lee Seung Gi -  - Delete (삭제)                    (총  23회 | 스킵 30% | 최근  18일 전)
+  25. [B] Jang Beom June  - 내 마음이 그대가 되어 (내마그) I Feel You  (총  22회 | 스킵 18% | 최근  18일 전)
+
+
+=== ❄️ Frozen (1807곡) ===
+[선정 기준]
+ - 너무 오랫동안(예: 3개월 이상) 재생 기록이 없어 완전히 잊힌 곡
+
+[대표 곡 Top 25 예시]
+  1. [S] The Black Skirt - Tangled                        (총   8회 | 스킵 88% | 최근 171일 전)
+  2. [S] The Black Skirt - Le Fou Muet                    (총   5회 | 스킵 60% | 최근 204일 전)
+  3. [S] JANNABI - Topic - After a tumultuous night       (총   3회 | 스킵  0% | 최근  91일 전)
+  4. [S] JANNABI - Topic - 도포자락 휘날리며 (Original Television (총   2회 | 스킵 50% | 최근 240일 전)
+  5. [S] JANNABI - Topic - May I Laugh (Instrumental)     (총   1회 | 스킵  0% | 최근 316일 전)
+  6. [S] JANNABI - Topic - May I Laugh                    (총   1회 | 스킵  0% | 최근 311일 전)
+  7. [S] JANNABI - Topic - Old dog (늙은 개)                 (총   1회 | 스킵 100% | 최근 202일 전)
+  8. [S] JANNABI - Topic - 알록달록 (Inst.)                   (총   1회 | 스킵  0% | 최근 102일 전)
+  9. [S] JANNABI - Topic - 얼마나 좋아 Wonderful               (총   1회 | 스킵  0% | 최근 298일 전)
+  10. [S] JANNABI - Topic - 파라다이스 Paradise                 (총   1회 | 스킵 100% | 최근 298일 전)
+  11. [B] OneRepublic - T - Love Runs Out                  (총  43회 | 스킵  7% | 최근  88일 전)
+  12. [B] OneRepublic - T - Someday                        (총  37회 | 스킵 11% | 최근  35일 전)
+  13. [B] OneRepublic - T - Apologize                      (총  34회 | 스킵  9% | 최근  78일 전)
+  14. [B] OneRepublic - T - Run                            (총  34회 | 스킵  0% | 최근  36일 전)
+  15. [B] OneRepublic - T - Nobody (from Kaiju No. 8)      (총  31회 | 스킵  6% | 최근  36일 전)
+  16. [B] My Chemical Rom - Teenagers                      (총  27회 | 스킵 15% | 최근  35일 전)
+  17. [B] OneRepublic - T - Good Life                      (총  25회 | 스킵  8% | 최근  88일 전)
+  18. [B] AKMU - Topic    - 어떻게 이별까지 사랑하겠어, 널 사랑하는 거지 (How (총  25회 | 스킵 12% | 최근  53일 전)
+  19. [B] My Chemical Rom - Famous Last Words              (총  23회 | 스킵 17% | 최근  47일 전)
+  20. [B] The Electriceel - 적도                             (총  23회 | 스킵 17% | 최근  48일 전)
+  21. [B] Radiohead - Top - Creep                          (총  22회 | 스킵  5% | 최근 125일 전)
+  22. [B] Maroon 5 - Topi - Memories                       (총  22회 | 스킵  0% | 최근  35일 전)
+  23. [B] My Chemical Rom - Disenchanted                   (총  21회 | 스킵 29% | 최근  44일 전)
+  24. [B] Silica Gel - To - Tik Tak Tok                    (총  20회 | 스킵  5% | 최근  68일 전)
+  25. [B] OneRepublic - T - All The Right Moves            (총  19회 | 스킵 21% | 최근  88일 전)
+
+
