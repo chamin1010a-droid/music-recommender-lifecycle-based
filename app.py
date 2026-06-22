@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 _env_path = Path(__file__).parent / '.env'
 if _env_path.exists():
-    for line in _env_path.read_text().strip().splitlines():
+    for line in _env_path.read_text(encoding='utf-8').strip().splitlines():
         if '=' in line and not line.startswith('#'):
             k, v = line.split('=', 1)
             os.environ.setdefault(k.strip(), v.strip())
@@ -32,7 +32,8 @@ app = Flask(__name__,
             static_folder=os.path.join(PROJECT_DIR, 'web', 'static'))
 
 # ── 데이터 로드 ──
-CSV_PATH = os.path.join(PROJECT_DIR, '유튜브 뮤직 로그들', 'user', 'user_features.csv')
+MUSIC_USER = os.environ.get('MUSIC_USER', 'user')  # 로컬 .env에서 실제 데이터 폴더명 지정
+CSV_PATH = os.path.join(PROJECT_DIR, '유튜브 뮤직 로그들', MUSIC_USER, f'{MUSIC_USER}_features.csv')
 BROWSER_JSON = os.path.join(PROJECT_DIR, 'data', 'caches', 'browser.json')
 
 df = pd.read_csv(CSV_PATH, encoding='utf-8-sig')
@@ -237,13 +238,18 @@ def api_recommend():
             if sim is not None and sim > 0:
                 similarity = float(sim)
                 
-                # 호감도 점수 (affinity × 0.4 + momentum × 0.6)
+                # 호감도(지금) = 진폭 × 위치
+                #   진폭   = 그 곡을 원래 얼마나 좋아하나 (lgbm, 안 변함)
+                #   위치   = 생애주기상 지금 식은 정도 (0~1, 1=한창, 실시간)
+                #   진폭이 위치 페널티를 조절: 사랑하는 곡일수록 식어도 덜 깎임
+                #   (근거: 식음 깊이 ↔ 호감도 상관 -0.53 — 호감도가 식음 기울기를 지배)
                 scores = _song_scores.get(s['song_id'], {})
-                affinity = scores.get('affinity', 0.3)
-                momentum = scores.get('momentum', 0.2)
-                preference = 0.4 * affinity + 0.6 * momentum
-                
-                # 최종 점수 = 유사도 × 호감도
+                amplitude = scores.get('amplitude', 0.3)
+                position = scores.get('position', 1.0)
+                position_adj = position + (1.0 - position) * amplitude
+                preference = amplitude * position_adj
+
+                # 최종 점수 = 유사도 × 호감도(지금)
                 final_score = similarity * (0.3 + 0.7 * preference)
                 
                 candidates.append({
