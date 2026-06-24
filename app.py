@@ -45,56 +45,19 @@ song_list = song_list.sort_values('title').to_dict('records')
 print(f"[서버] {len(song_list)}곡 로드 완료")
 
 
-# ── 유사도 엔진 (서버 시작 시 1회 빌드) ──
-from tag_similarity import TagSimilarityEngine
-from multi_signal_engine import MultiSignalSimilarityEngine, GENRE_GROUPS
-from audio_features_engine import AudioFeaturesEngine
+# ── 유사도: MERT 임베딩 (MFCC 대비 음악 이해 우수, 캐시 사전계산) ──
 import numpy as np
-
-LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", "")
-
-print("[엔진] 유사도 엔진 초기화 중...")
-
-_tag_engine = None
+print("[엔진] MERT 임베딩 로드 중...")
+_mert = {}
 try:
-    _tag_engine = TagSimilarityEngine(api_key=LASTFM_API_KEY)
-    
-    # 메타데이터에서 장르 정보 미리 로드
-    _meta_df = pd.read_csv(os.path.join(PROJECT_DIR, 'data', 'caches', 'ytm_metadata_cache.csv'), encoding='utf-8-sig')
-    _genre_map = dict(zip(_meta_df['song_id'], _meta_df['genre'].fillna('')))
-    
-    _song_temps = {}
-    for s in song_list:
-        genre = str(_genre_map.get(s['song_id'], ''))
-        _song_temps[s['song_id']] = {
-            'artist': s['artist'], 
-            'title': s['title'], 
-            'genre': genre,
-            'momentum': 0.1
-        }
-    _tag_engine.build_tag_vectors(_song_temps)
-    print(f"  [태그] {len(_tag_engine.song_id_to_index)}곡 태그 빌드 완료")
+    with open(os.path.join(PROJECT_DIR, 'data', 'caches', 'audio_mert_cache.json'), 'r', encoding='utf-8') as f:
+        _mert_raw = json.load(f)
+    for _k, _v in _mert_raw.items():
+        _a = np.asarray(_v, dtype=float)
+        _mert[_k] = _a / (np.linalg.norm(_a) + 1e-9)
+    print(f"[엔진] MERT {len(_mert)}곡(768D) 정규화 완료")
 except Exception as e:
-    import traceback; traceback.print_exc()
-    print(f"  [태그] 로드 실패: {e}")
-    _tag_engine = None
-
-_audio_engine = AudioFeaturesEngine()
-_audio_engine._build_matrix()
-
-_lyrics_engine = None
-try:
-    from lyrics_engine import LyricsEngine
-    _lyrics_engine = LyricsEngine(genius_token=os.environ.get("GENIUS_TOKEN", ""))
-except:
-    pass
-
-_metadata_path = os.path.join(PROJECT_DIR, 'data', 'caches', 'ytm_metadata_cache.csv')
-_similarity_engine = MultiSignalSimilarityEngine(
-    tag_engine=_tag_engine, lyrics_engine=_lyrics_engine,
-    audio_engine=_audio_engine, metadata_path=_metadata_path
-)
-print("[엔진] 유사도 엔진 준비 완료!")
+    print(f"[엔진] MERT 로드 실패: {e}")
 
 # ── 호감도 점수 로드 ──
 SCORES_PATH = os.path.join(PROJECT_DIR, 'data', 'caches', 'song_scores.json')
@@ -211,80 +174,60 @@ def api_recommend():
     data = request.json
     seed_title = data.get('seed_title', '')
     seed_artist = data.get('seed_artist', '')
-    count = data.get('count', 25)
-    
+    count = data.get('count', 20)
+
     try:
         import numpy as np
-        
-        engine = _similarity_engine
-        
+
         # 시드 song_id 찾기
         seed_id = None
         for s in song_list:
-            if (seed_title.lower() in s['title'].lower() and 
+            if (seed_title.lower() in s['title'].lower() and
                 seed_artist.lower()[:4] in s['artist'].lower()):
                 seed_id = s['song_id']
                 break
-        
         if not seed_id:
             return jsonify({'error': f'시드곡을 찾을 수 없습니다: {seed_title}'}), 404
-        
-        # 유사도 + 호감도 합산
-        candidates = []
-        for s in song_list:
-            if s['song_id'] == seed_id:
-                continue
-            sim = engine.calculate_similarity(seed_id, s['song_id'])
-            if sim is not None and sim > 0:
-                similarity = float(sim)
-                
-                # 호감도(지금) = 진폭 × 위치
-                #   진폭   = 그 곡을 원래 얼마나 좋아하나 (lgbm, 안 변함)
-                #   위치   = 생애주기상 지금 식은 정도 (0~1, 1=한창, 실시간)
-                #   진폭이 위치 페널티를 조절: 사랑하는 곡일수록 식어도 덜 깎임
-                #   (근거: 식음 깊이 ↔ 호감도 상관 -0.53 — 호감도가 식음 기울기를 지배)
-                scores = _song_scores.get(s['song_id'], {})
-                amplitude = scores.get('amplitude', 0.3)
-                position = scores.get('position', 1.0)
-                position_adj = position + (1.0 - position) * amplitude
-                preference = amplitude * position_adj
+        if seed_id not in _mert:
+            return jsonify({'error': f'시드곡 임베딩이 없습니다: {seed_title}'}), 404
 
-                # 최종 점수 = 유사도 × 호감도(지금)
-                final_score = similarity * (0.3 + 0.7 * preference)
-                
-                candidates.append({
-                    'song_id': s['song_id'],
-                    'title': s['title'],
-                    'artist': s['artist'],
-                    'similarity': round(final_score, 3)
-                })
-        
-        candidates.sort(key=lambda x: x['similarity'], reverse=True)
-        
-        # 랜덤성: 상위 3배수 풀에서 가중 샘플링 (시드곡 1곡 빼고)
-        rec_count = count - 1
-        pool_size = min(rec_count * 3, len(candidates))
-        pool = candidates[:pool_size]
-        
-        if pool:
-            weights = np.array([s['similarity'] for s in pool])
-            weights = weights / weights.sum()
-            chosen_idx = np.random.choice(len(pool), size=min(rec_count, len(pool)), 
-                                           replace=False, p=weights)
-            playlist = [pool[i] for i in sorted(chosen_idx, 
-                        key=lambda i: pool[i]['similarity'], reverse=True)]
-        else:
-            playlist = []
-        
-        # 시드곡을 1번으로 삽입
-        seed_entry = {
-            'song_id': seed_id,
-            'title': seed_title,
-            'artist': seed_artist,
-            'similarity': 1.0
-        }
-        playlist = [seed_entry] + playlist
-        
+        meta = {s['song_id']: s for s in song_list}
+        seed_vec = _mert[seed_id]
+
+        # 후보 = MERT 임베딩 + 점수(A) 둘 다 있는 곡, 유사도 = MERT 코사인
+        cand = []
+        for s in song_list:
+            sid = s['song_id']
+            if sid == seed_id or sid not in _mert or sid not in _song_scores:
+                continue
+            cand.append((sid, float(seed_vec @ _mert[sid])))
+        cand.sort(key=lambda x: -x[1])
+        gated = cand[:40]                                    # 느슨한 관문(상위 40 유사)
+        simof = {sid: sim for sid, sim in gated}
+
+        # 추천 점수 = 유사도 × 사랑(A).
+        # ('생애주기'(질림·신선도·위치) 신호는 검증 결과 전부 진폭으로 환원돼 제거)
+        score = lambda s: simof[s] * _song_scores[s]['A']
+        ranked = sorted(simof, key=lambda s: -score(s))
+
+        # 가중 랜덤: 상위권에서 점수에 비례해 뽑아 매번 조금씩 다른 리스트
+        k = min(count - 1, len(ranked))
+        pool = ranked[:max(k * 2, k)]
+        w = np.clip(np.array([score(s) for s in pool], dtype=float), 1e-9, None)
+        w = w / w.sum()
+        pick = [pool[i] for i in np.random.choice(len(pool), size=k, replace=False, p=w)]
+        pick = sorted(pick, key=lambda s: -score(s))
+
+        # 시드곡을 1번으로, 이어서 점수순
+        playlist = [{'song_id': seed_id, 'title': seed_title, 'artist': seed_artist,
+                     'tag': '시드', 'similarity': 1.0}]
+        for sid in pick:
+            m = meta[sid]
+            playlist.append({
+                'song_id': sid, 'title': m['title'], 'artist': m['artist'],
+                'tag': '추천', 'similarity': round(float(simof[sid]), 3)
+            })
+
         return jsonify({
             'seed': {'title': seed_title, 'artist': seed_artist, 'song_id': seed_id},
             'playlist': playlist
